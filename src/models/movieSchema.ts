@@ -1,6 +1,7 @@
 import joi from 'joi';
+import { Movie } from '../protocols/movie';
 
-export const movieSchema = joi.object({
+export const movieSchema: joi.ObjectSchema<Movie> = joi.object({
     title: joi.string().required(),
     description: joi.string().required(),
     duration: joi.string().required(),
