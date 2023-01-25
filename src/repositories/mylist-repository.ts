@@ -19,3 +19,11 @@ export function insertMovieInMyList(mylistObject: Mylist): Promise<QueryResult> 
             INSERT INTO mylist (movie_id, status, created_at)
             VALUES ($1, $2, $3)`, [movie_id, status, created_at]);
 }
+
+export function updateMovieStatus(id: number): Promise<QueryResult>{
+    return connection.query(`UPDATE mylist SET status='watched' WHERE movie_id=$1`, [id]);
+}
+
+export function deleteMovieOfMyListById(id: number): Promise<QueryResult>{
+    return connection.query(`DELETE FROM mylist WHERE movie_id=$1`, [id]);
+}

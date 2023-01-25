@@ -1,4 +1,4 @@
-import { findMovieInMyList, insertMovieInMyList, showMoviesInMyList } from "../repositories/mylist-repository.js";
+import { deleteMovieOfMyListById, findMovieInMyList, insertMovieInMyList, showMoviesInMyList, updateMovieStatus } from "../repositories/mylist-repository.js";
 import { Request, Response } from "express";
 import dayjs from "dayjs";
 import { Mylist } from "../protocols/mylist.js";
@@ -50,18 +50,26 @@ export async function addMovieInMyList(req: Request, res: Response){
     }
 }
 
-export function markAsWatched(req: Request, res: Response){
+export async function markAsWatched(req: Request, res: Response){
     const { id } = req.params;
     const idNumber = Number(id);
-    //filtra pelo filme e UPDATE movies SET status="watched" WHERE id=$1, [idNumber];
 
-    res.sendStatus(200);
+    const mylistDB = await findMovieInMyList(idNumber);
+        if (!mylistDB.rows[0])
+            return res.sendStatus(404);
+
+    await updateMovieStatus(idNumber);
+    return res.sendStatus(200);
 }
 
-export function removeMovieOfMyList(req: Request, res: Response){
+export async function deleteMovieOfMyList(req: Request, res: Response){
     const { id } = req.params;
     const idNumber = Number(id);
-    //filtra pelo filme e DELETE ... WHERE id=$1, [idNumber];
+    
+    const mylistDB = await findMovieInMyList(idNumber);
+        if (!mylistDB.rows[0])
+            return res.sendStatus(404);
 
-    res.sendStatus(200);
+    await deleteMovieOfMyListById(idNumber);
+    return res.sendStatus(200);
 }
