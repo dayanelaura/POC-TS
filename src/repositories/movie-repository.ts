@@ -12,3 +12,7 @@ export function insertMovie(movie: Movie): Promise<QueryResult> {
 export function showAllMovies(): Promise<QueryResult>{
         return connection.query(`SELECT * FROM movies`);
 }
+
+export function findMovieById(id: number): Promise<QueryResult>{
+        return connection.query(`SELECT * FROM movies WHERE id=$1`, [id])
+}
