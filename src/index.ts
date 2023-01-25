@@ -1,12 +1,15 @@
 import express from "express";
-import { addMovieInMyList, getAllMovies, getMoviesInMyList, markAsWatched, removeMovieOfMyList } from "./controllers/moviesControllers.js";
+import { addMovie, getAllMovies } from "./controllers/moviesControllers.js";
+import { addMovieInMyList, getMoviesInMyList, markAsWatched, removeMovieOfMyList } from "./controllers/mylistControllers.js";
 
 const app = express();
 app.use(express.json());
 
 app.get('/health', (req, res) =>  res.send('ok'));
 
+app.post('/movies', addMovie);
 app.get('/movies', getAllMovies);
+
 app.get('/mylist', getMoviesInMyList);
 app.post('/mylist', addMovieInMyList);
 app.put('/mylist/:id', markAsWatched);
